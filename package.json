@@ -1,0 +1,26 @@
+{
+  "name": "trueslots",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gaserd/trueslots.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gaserd/trueslots/issues"
+  },
+  "homepage": "https://github.com/Gaserd/trueslots#readme",
+  "dependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
