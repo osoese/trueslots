@@ -9,7 +9,15 @@ contract Slots {
     uint modulus = 6;
     uint256 randNonce = 0;
 
+    struct Game {
+        uint result;
+        uint randNumber1;
+        uint randNumber2;
+        uint randNumber3;
+    }
+
     mapping(address=>uint) winnerBalance;
+    mapping(address=>Game[]) gamesResult;
 
     address owner;
 
@@ -38,6 +46,11 @@ contract Slots {
         return winnerBalance[msg.sender];
     }
 
+    function getLastPlayerGame() public view returns (uint, uint, uint, uint) {
+        uint length = gamesResult[msg.sender].length - 1;
+        return (gamesResult[msg.sender][length].result, gamesResult[msg.sender][length].randNumber1, gamesResult[msg.sender][length].randNumber2, gamesResult[msg.sender][length].randNumber3);
+    }
+
     function roll() public payable {
         require(minValue >= msg.value);
         uint randNumber1 = randomValue();
@@ -52,6 +65,7 @@ contract Slots {
         } else {
             winnerBalance[msg.sender] += result;
         }
+        gamesResult[msg.sender].push(Game(result, randNumber1, randNumber2, randNumber3));
     }
 
     function randomValue() private view returns (uint) {

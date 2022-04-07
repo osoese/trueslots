@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TrueWay: Slots</title>
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -15,13 +16,15 @@
   </head>
   <body>
     <div class="main">
-        <h1>Section for player</h1>
-        <p>Account:</p>
-        <p class="account" id="account"></p>
+        <div class="account_block">
+          <p>Account: <span id="account"></span></p>
+          <p>Player Balance: <span id="player_balance"></span></p>
+          <button id="withdraw">withdraw</button>
+          <button id="roll">roll</button>
+          <p id="last_game"></p>
+        </div>
         <div class="owner">
-            <h1>Section for only owner</h1>
-            <p>Slots Balance:</p>
-            <p class="slots-balance" id="slots-balance"></p>
+            <p>Slots Balance: <span id="slots-balance"></span></p>
             <button id="deposit">deposit</button>
         </div>
     </div>
