@@ -8,6 +8,9 @@ let minValue = 0.001
 let lastGame = null
 let loaderView = 1
 
+let beepSounds = new Audio('./sounds/Beep.wav')
+let coinSounds = new Audio('./sounds/Coin.wav')
+
 let slotsNumbers = {
     '0' : '<i class="nes-mario"></i>',
     '1' : '<i class="nes-ash"></i>',
@@ -52,20 +55,25 @@ async function initContract() {
 
 async function initEvents() {
     document.getElementById('deposit').addEventListener('click', async function () {
+        beepSounds.play()
         await deposit()
     })
 
     document.getElementById('roll').addEventListener('click', async function () {
+        beepSounds.play()
         await roll()
         await redrawPlayersAndSlotsBalances()
+        coinSounds.play()
     })
 
     document.getElementById('withdraw').addEventListener('click', async function() {
+        beepSounds.play()
         let amount = prompt('Please enter amount from your wthdraw', playerBalance)
         if (amount != 0 && amount != null) {
             amount = amount * ether
             await withdrawPlayer(amount)
             await redrawPlayersAndSlotsBalances()
+            coinSounds.play()
         }
     })
 }
