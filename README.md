@@ -13,3 +13,5 @@ Also, do not forget that you will need to import the wallet (the one in ganache)
 ### How can I help the project?
 
 Now there is not enough UI and I don't fully like the logic of the smart contract, if you want to help with this, then just send pull requests and let's make the coolest slot game!
+
+![image info](ui.png)
