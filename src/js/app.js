@@ -6,6 +6,7 @@ let slotsBalance = null
 let playerBalance = null
 let minValue = 0.001
 let lastGame = null
+let loaderView = 1
 
 let slotsNumbers = {
     '0' : '<i class="nes-mario"></i>',
@@ -74,7 +75,9 @@ async function getPlayerBalance() {
         let slotsInstance
         contracts.Slots.deployed().then(function (instance) {
             slotsInstance = instance
-            return slotsInstance.getPlayerBalance.call()
+            return slotsInstance.getPlayerBalance.call({
+                from : account
+            })
         }).then(function (balance) {
             playerBalance = balance.toString() / ether
             resolve(playerBalance)
@@ -90,7 +93,9 @@ async function getLastPlayerGame() {
         let slotsInstance
         contracts.Slots.deployed().then(function (instance) {
             slotsInstance = instance
-            return slotsInstance.getLastPlayerGame.call()
+            return slotsInstance.getLastPlayerGame.call({
+                from : account
+            })
         }).then(function (game) {
             lastGame = {
                 result : game[0].toString() / ether,
@@ -120,6 +125,16 @@ async function getBalanceSlots() {
             reject(null)
         })
     })
+}
+
+function loader(value) {
+    if (loaderView == 1) {
+        document.getElementById('loader').style.display = 'block'
+    } else {
+        document.getElementById('loader').style.display = 'none'
+    }
+
+    document.querySelector('.nes-progress').setAttribute('value', value)
 }
 
 async function getAccount() {
@@ -219,7 +234,14 @@ async function roll() {
             })
                 .then(async function (res) {
                     let transactionReceipt = null
+                    let loaderIndex = 1
+                    loaderView = 1
+
+                    loader(10)
                     while (transactionReceipt == null) {
+                        loader(10 * loaderIndex)
+                        loaderIndex++
+                        if (loaderIndex == 9) loaderIndex = 1
                         await web3.eth.getTransactionReceipt(res, function(error, result) {
                             transactionReceipt = result
                             if (error) {
@@ -228,6 +250,8 @@ async function roll() {
                         });
                         await sleep(1000)
                     }
+                    loaderView = 0
+                    loader(10)
                     resolve(res)
                 }).catch(function (err) {
                     console.log(err)
@@ -264,15 +288,20 @@ async function drawLastPlayerGames() {
 }
 
 async function redrawPlayersAndSlotsBalances() {
-
+    loaderView = 1
     await getBalanceSlots()
     await drawSlotsBalance()
+    loader(30)
 
     await getPlayerBalance()
     await drawPlayerBalance()
+    loader(60)
 
     await getLastPlayerGame()
     await drawLastPlayerGames()
+    loader(100)
+    loaderView = 0
+    loader(10)
 }
 
 async function main() {
@@ -281,15 +310,21 @@ async function main() {
 
     account = await getAccount().then(res => res)
     await drawAccount()
+    loader(30)
 
     await getBalanceSlots()
     await drawSlotsBalance()
+    loader(60)
 
     await getPlayerBalance()
     await drawPlayerBalance()
+    loader(80)
 
     await getLastPlayerGame()
     await drawLastPlayerGames()
+    loader(100)
+    loaderView = 0
+    loader(10)
 
     await initEvents()
 }
