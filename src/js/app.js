@@ -25,6 +25,10 @@ function sleep(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
 async function init() {
     if (window.ethereum) {
         web3Provider = window.ethereum
@@ -94,6 +98,16 @@ async function getPlayerBalance() {
             reject(null)
         })
     })
+}
+
+async function SlotAnimation(row) {
+    let lastRoll = document.getElementById('last_roll')
+    while (loaderView == 1) {
+        let randNumbers = [ getRandomInt(6), getRandomInt(6),getRandomInt(6)]
+        lastRoll.innerHTML = ''
+        lastRoll.innerHTML += `${slotsNumbers[randNumbers[0]]} ${slotsNumbers[randNumbers[1]]} ${slotsNumbers[randNumbers[2]]}`
+        await sleep(1000)
+    }
 }
 
 async function getLastPlayerGame() {
@@ -246,6 +260,7 @@ async function roll() {
                     loaderView = 1
 
                     loader(10)
+                    SlotAnimation()
                     while (transactionReceipt == null) {
                         loader(10 * loaderIndex)
                         loaderIndex++
