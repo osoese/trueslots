@@ -1,0 +1,33 @@
+* {
+    font-family: "Press Start 2P";
+}
+
+.main {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+body {
+    padding: 1rem 2rem;
+    margin: 0 2rem;
+}
+
+.container {
+    margin-bottom: 2.5rem;
+}
+
+.loader {
+    position: fixed;
+    bottom: 1em;
+    width: 100px;
+    height: 50px;
+    right: 1em;
+}
+
+.vision {
+    display: block;
+}
+
+.not-vision {
+    display: none;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TrueWay: Slots</title>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <div class="main">
+    <div class="container">
+      <div class="nes-container with-title is-centered">
+        <p class="title">Player</p>
+        <p>Account: <span id="account"></span></p>
+        <p>Player Balance: <span id="player_balance"></span></p>
+        <button type="button" class="nes-btn" id="withdraw">withdraw</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="nes-container with-title is-centered">
+        <p class="title">Game</p>
+        <p id="last_game"></p>
+        <p id="last_roll"></p>
+        <button type="button" class="nes-btn is-success" id="roll">roll</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="nes-container with-title is-centered">
+        <p class="title">How work</p>
+        <p>
+          <i class="nes-kirby"></i>
+          <i class="nes-kirby"></i>
+          <i class="nes-kirby"></i> х5
+        </p>
+        <p>
+          <i class="nes-squirtle"></i>
+          <i class="nes-squirtle"></i>
+          <i class="nes-squirtle"></i> x3
+        </p>
+        <p>
+          <i class="nes-charmander"></i>
+          <i class="nes-charmander"></i>
+          <i class="nes-charmander"></i> x3
+        </p>
+        <p>
+          <i class="nes-bulbasaur"></i>
+          <i class="nes-bulbasaur"></i>
+          <i class="nes-bulbasaur"></i> x3
+        </p>
+        <p>
+          <i class="nes-pokeball"></i>
+          <i class="nes-pokeball"></i>
+          <i class="nes-pokeball"></i> x3
+        </p>
+        <p>
+          <i class="nes-ash"></i>
+          <i class="nes-ash"></i>
+          <i class="nes-ash"></i> x3
+        </p>
+        <p>
+          If two identical pictures fall out, then you get x2
+        </p>
+      </div>
+    </div>
+    <div class="container"> 
+      <a href="https://github.com/gaserd/trueslots">
+        <i class="nes-icon github is-large"></i>
+      </a>
+    </div>
+    <div class="owner" style="display:none">
+      <p>Slots Balance: <span id="slots-balance"></span></p>
+      <button id="deposit">deposit</button>
+    </div>
+    <div class="loader" id="loader">
+      <progress class="nes-progress is-success" value="10" max="100"></progress>
+    </div>
+  </div>
+
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
