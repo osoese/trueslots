@@ -1,3 +1,4 @@
 node_modules
 .secret
 experiment.js
+/build/contracts/*

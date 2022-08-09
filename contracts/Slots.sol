@@ -2,12 +2,13 @@
 
 pragma solidity >=0.8.0;
 
-contract Slots {
+import './abstract/Ownable.sol';
+import './abstract/Randomizer.sol';
+
+contract Slots is Ownable, Randomizer {
     uint256 public slotsBalance;
     uint256 public minValue = 0.001 ether;
     uint256 public sumPlayersMoney = 0;
-    uint256 modulus = 6;
-    uint256 randNonce = 0;
 
     struct Game {
         uint256 result;
@@ -19,35 +20,25 @@ contract Slots {
     mapping(address => uint256) winnerBalance;
     mapping(address => Game[]) gamesResult;
 
-    address owner;
-
-    constructor() {
-        owner = msg.sender;
+    function changeMinValue(uint256 newMinValue) external onlyOwner {
+        minValue = newMinValue;
     }
 
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
-
-    function changeMinValue(uint256 newMinValue) public onlyOwner {
-        minValue = newMinValue * (1 ether);
-    }
-
-    function deposit() public payable onlyOwner {
+    function deposit() external payable onlyOwner {
+        require (msg.value != 0, 'zero deposit');
         slotsBalance += msg.value;
     }
 
-    function getBalanceSlots() public view returns (uint256) {
+    function getSlotsBalance() external view returns (uint256) {
         return slotsBalance;
     }
 
-    function getPlayerBalance() public view returns (uint256) {
+    function getMyBalance() external view returns (uint256) {
         return winnerBalance[msg.sender];
     }
 
     function getLastPlayerGame()
-        public
+        external
         view
         returns (
             uint256,
@@ -65,8 +56,8 @@ contract Slots {
         );
     }
 
-    function roll() public payable {
-        require(minValue <= msg.value);
+    function roll() external payable {
+        require (minValue <= msg.value, 'low value');
         uint256 randNumber1 = randomValue();
         randNonce += 1;
         uint256 randNumber2 = randomValue();
@@ -83,27 +74,6 @@ contract Slots {
         gamesResult[msg.sender].push(
             Game(result, randNumber1, randNumber2, randNumber3)
         );
-    }
-
-    function randomValue() private view returns (uint256) {
-        uint256 seed = uint256(
-            keccak256(
-                abi.encodePacked(
-                    block.timestamp +
-                        block.difficulty +
-                        randNonce +
-                        ((
-                            uint256(keccak256(abi.encodePacked(block.coinbase)))
-                        ) / (block.timestamp)) +
-                        block.gaslimit +
-                        ((uint256(keccak256(abi.encodePacked(msg.sender)))) /
-                            (block.timestamp)) +
-                        block.number
-                )
-            )
-        );
-
-        return (seed - ((seed / modulus) * modulus));
     }
 
     function calculatePrize(
@@ -130,18 +100,17 @@ contract Slots {
         }
     }
 
-    function withdraw(uint256 amount) public {
-        require(winnerBalance[msg.sender] <= amount);
+    function withdraw(uint256 amount) external {
+        require(winnerBalance[msg.sender] <= amount, 'requested amount exceeds balance');
         winnerBalance[msg.sender] -= amount;
         slotsBalance -= amount;
         sumPlayersMoney -= amount;
         payable(msg.sender).transfer(amount);
     }
 
-    function witdrawOwnerSlots(uint256 amount) public payable onlyOwner {
-        uint256 allowWithdrawlMoney = slotsBalance - sumPlayersMoney;
-        require(allowWithdrawlMoney < 0);
-        require(allowWithdrawlMoney <= amount);
+    function withdrawUnusedLiquidity(uint256 amount) external payable onlyOwner {
+        uint256 allowWithdrawMoney = slotsBalance - sumPlayersMoney; // owner can't get money allocated to winners
+        require(allowWithdrawMoney <= amount, 'amount exceeds allowed value');
         payable(msg.sender).transfer(amount);
     }
 }
