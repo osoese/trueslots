@@ -87,7 +87,7 @@ async function getPlayerBalance() {
         let slotsInstance
         contracts.Slots.deployed().then(function (instance) {
             slotsInstance = instance
-            return slotsInstance.getPlayerBalance.call({
+            return slotsInstance.getMyBalance.call({
                 from : account
             })
         }).then(function (balance) {
@@ -138,7 +138,7 @@ async function getBalanceSlots() {
         let slotsInstance
         contracts.Slots.deployed().then(function (instance) {
             slotsInstance = instance
-            return slotsInstance.getBalanceSlots.call()
+            return slotsInstance.getSlotsBalance.call()
         }).then(function (balance) {
             slotsBalance = balance.toString() / ether
             resolve(slotsBalance)
