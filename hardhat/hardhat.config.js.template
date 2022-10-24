@@ -1,0 +1,14 @@
+require("@nomicfoundation/hardhat-toolbox");
+require('@openzeppelin/hardhat-upgrades');
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  solidity: "0.8.17",
+  networks: {
+    mumbai: {
+      url: "https://matic-mumbai.chainstacklabs.com", // "https://rpc.ankr.com/polygon_mumbai",
+      accounts: ["*****************"],
+      timeout: 2000000,
+    }
+  },
+};

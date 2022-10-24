@@ -23,5 +23,9 @@
   "dependencies": {
     "@truffle/hdwallet-provider": "^2.0.4",
     "lite-server": "^2.6.1"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "chai-bn": "^0.3.1"
   }
 }

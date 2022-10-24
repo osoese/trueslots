@@ -87,7 +87,7 @@ async function getPlayerBalance() {
         let slotsInstance
         contracts.Slots.deployed().then(function (instance) {
             slotsInstance = instance
-            return slotsInstance.getMyBalance.call({
+            return slotsInstance.getPlayerBalance.call({
                 from : account
             })
         }).then(function (balance) {
@@ -138,7 +138,7 @@ async function getBalanceSlots() {
         let slotsInstance
         contracts.Slots.deployed().then(function (instance) {
             slotsInstance = instance
-            return slotsInstance.getSlotsBalance.call()
+            return slotsInstance.getBalanceSlots.call()
         }).then(function (balance) {
             slotsBalance = balance.toString() / ether
             resolve(slotsBalance)
@@ -303,9 +303,7 @@ async function drawPlayerBalance() {
 async function drawLastPlayerGames() {
     if (lastGame != null) {
         document.getElementById('last_game').innerHTML = ''
-        document.getElementById('last_game').innerHTML += `You win ${lastGame.result} ETH in last time,</br>`
-        document.getElementById('last_game').innerHTML += `share your result</br>`
-        document.getElementById('last_game').innerHTML += `<a target="_blank" href="https://twitter.com/intent/tweet?url=${location.href}&text=I win ${lastGame.result} ETH in last time #trueslots #eth"><i class="nes-icon twitter is-large"></i><a>`
+        document.getElementById('last_game').innerHTML += `You win ${lastGame.result} ETH in last time`
 
         document.getElementById('last_roll').innerHTML = ''
         document.getElementById('last_roll').innerHTML += `${slotsNumbers[lastGame.randNumber1]} ${slotsNumbers[lastGame.randNumber2]} ${slotsNumbers[lastGame.randNumber3]}`
